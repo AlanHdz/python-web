@@ -1,0 +1,69 @@
+{% extends 'bootstrap/base.html' %}
+
+
+{% block title %}
+	{{ title }}
+{% endblock title %}
+
+
+{% block navbar %}
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
+		<div class="container">
+			<a href="#" class="navbar-brand"></a>
+			<div>
+				<ul class="navbar-nav ml-auto">
+					
+					{% if current_user.is_authenticated %}
+						<li class="nav-item active">
+							<a href="{{ url_for('.logout') }}" class="nav-link">Logout</a>
+						</li>
+						<li class="nav-item active">
+							<a href="{{ url_for('.new_task') }}" class="nav-link">Nueva Tarea</a>
+						</li>
+						<li class="nav-item active">
+							<a href="{{ url_for('.tasks') }}" class="nav-link">Tareas</a>
+						</li>
+					{% else %}
+						<li class="nav-item active">
+							<a href="{{ url_for('.login') }}" class="nav-link">Login</a>
+						</li>
+						<li class="nav-item active">
+							<a href="{{ url_for('.register') }}" class="nav-link">Register</a>
+						</li>
+					{% endif %}
+				</ul>
+			</div>
+		</div>
+	</nav>
+{% endblock navbar %}
+
+
+{% block content %}
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12 col-md-offset-1">
+				{% with messages = get_flashed_messages(with_categories=True) %}
+					{% if messages %}
+						{% for category,message in messages %}
+							{% if category == 'error' %}
+								<div class="alert alert-danger" role="alert">
+									{{ message }}
+								</div>
+							{% else %}
+								<div class="alert alert-success" role="alert">
+									{{ message }}
+								</div>
+							{% endif %}
+						{% endfor %}
+					{% endif %}
+				{% endwith %}
+			</div>
+			{% block container %}
+				
+			{% endblock container %}
+				
+		</div>
+	</div>
+{% endblock content %}
+	
+	
